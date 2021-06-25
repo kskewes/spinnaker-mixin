@@ -18,6 +18,7 @@ jobs:
         with:
           entrypoint: jb
           args: install
+          options: --user root
 
       - name: Build/Render jsonnet
         uses: docker://ghcr.io/uneeq-oss/prometheus-mixin-ci:latest
