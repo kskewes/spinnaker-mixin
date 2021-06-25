@@ -39,7 +39,7 @@ jobs:
           name: manifests
       - name: Show files
         run: |
-          ls -la
+          find .
       - name: Prometheus check recording rules
         uses: docker://prom/prometheus:latest
         with:
