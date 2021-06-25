@@ -44,12 +44,12 @@ jobs:
         uses: docker://prom/prometheus:latest
         with:
           entrypoint: promtool
-          args: check rules prometheus_rules.yaml
+          args: check rules manifests/prometheus_rules.yaml
       - name: Prometheus check alerts
         uses: docker://prom/prometheus:latest
         with:
           entrypoint: promtool
-          args: check rules prometheus_alerts.yaml
+          args: check rules manifests/prometheus_alerts.yaml
       - name: Prometheus test rules
         uses: docker://prom/prometheus:latest
         with:
