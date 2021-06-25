@@ -17,10 +17,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Fetch jsonnet dependencies
-        run: |
-          jb install
-
       - name: Build/Render jsonnet
         run: |
           make build
@@ -31,6 +27,7 @@ jobs:
           name: manifests
           path: |
             manifests
+            tests.yaml
 
   test:
     runs-on: ubuntu-latest
