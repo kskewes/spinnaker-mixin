@@ -9,22 +9,21 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/uneeq-oss/prometheus-mixin-ci:latest
+      options: --user root  # HACK GHA lack of repo mounting -> perm issues
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
       - name: Fetch jsonnet dependencies
-        uses: docker://ghcr.io/uneeq-oss/prometheus-mixin-ci:latest
-        with:
-          entrypoint: jb
-          args: install
-          options: --user root
+        run: |
+          jb install
 
       - name: Build/Render jsonnet
-        uses: docker://ghcr.io/uneeq-oss/prometheus-mixin-ci:latest
-        with:
-          entrypoint: make
-          args: build
+        run: |
+          make build
 
       - name: Archive manifests for testing and publishing
         uses: actions/upload-artifact@v2
