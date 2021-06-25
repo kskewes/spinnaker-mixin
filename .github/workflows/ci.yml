@@ -34,15 +34,27 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    container: prom/prometheus:latest
     needs: [build]
     steps:
       - name: Download rendered manifests
         uses: actions/download-artifact@v2
         with:
           name: manifests
-      - name: Prometheus lint rules
+      - name: Show files
         run: |
-          promtool check rules manifests/prometheus_rules.yaml
-          promtool check rules manifests/prometheus_alerts.yaml
-          promtool test rules tests.yaml
+          ls -la
+      - name: Prometheus check recording rules
+        uses: docker://prom/prometheus:latest
+        with:
+          entrypoint: promtool
+          args: check rules prometheus_rules.yaml
+      - name: Prometheus check alerts
+        uses: docker://prom/prometheus:latest
+        with:
+          entrypoint: promtool
+          args: check rules prometheus_alerts.yaml
+      - name: Prometheus test rules
+        uses: docker://prom/prometheus:latest
+        with:
+          entrypoint: promtool
+          args: test rules tests.yaml
